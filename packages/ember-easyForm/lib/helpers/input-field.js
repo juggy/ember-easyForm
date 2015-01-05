@@ -32,7 +32,8 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
       return property;
     }
   };
-
+  options.hash.forceError = options.data.keywords.forceError
+  options.hash.forceErrorBinding = options.data.keywords.forceErrorBinding
   options.hash.valueBinding = modelPropertyPath(property);
 
   var context = this,

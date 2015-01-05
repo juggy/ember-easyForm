@@ -2,7 +2,20 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
     this.classNameBindings.push('showError:' + this.get('wrapperConfig.fieldErrorClass'));
-    Ember.defineProperty(this, 'showError', Ember.computed.and('canShowValidationError', 'formForModel.errors.' + this.property + '.firstObject'));
+    Ember.defineProperty(
+      this, 
+      'showError', 
+      Ember.computed(
+        'forceError', 
+        'canShowValidationError', 
+        'formForModel.errors.' + this.property + '.firstObject'),
+        function(){
+          return this.get("forceError") || 
+                 (this.get('canShowValidationError') &&
+                    this.get('formForModel.errors.' + this.property + '.firstObject'));
+        }
+      )
+    );
     if (!this.isBlock) {
       this.set('templateName', this.get('wrapperConfig.inputTemplate'));
     }
